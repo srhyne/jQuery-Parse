@@ -3,10 +3,74 @@
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>jQuery.parse AJAX Wrapper for parse.com </title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+		<link rel="stylesheet" href="bootstrap.min.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
 		<script src = "../jquery.parse.js"></script>
+		<style>
+			td.body{
+				cursor : pointer;
+			}
+			tr td:first-child{
+				width : 30px;
+			}
+			li + li{
+				padding-top : 10px;
+			}
+		</style>
 	</head>
 	<body>
+		<div class="container-fluid">
+			
+			<div class="sidebar span6 ">
+				<h1> $.parse </h1>
+				<p>A super light-weight AJAX wrapper for Parse.com's wonderful database service.</p>
+				<ol>
+					<li><strong>parse.sh</strong><br/>Generate your basic Auth Key from Terminal</li>
+					<li><strong>demo.js</strong><br/>Paste auth key on line 11 -> "auth : [your_auth_key]"</li>
+					<li><strong>Play!</strong></li>
+				</ol>
+				<p><strong>NOTE :</strong></p>
+				<ul>
+					<li>You need to serve this page from the file:// protocol or use this page
+					in a Chrome extension because of Cross Domain Security limitations.</li>
+					
+					<li>Remember that you are publicly displaying your basic auth key in demo.js</li>
+					
+					<li>
+						Tip! Adding a server proxy for $.parse to parse.com 
+						wouldn't be too hard if you want to hide your auth key and add some
+						user restrictions. 
+					</li>
+				</ul>
+
+
+
+				
+			</div>
+			<div class="content span10">
+				<table class="zebra-striped" id="task_table">
+					<thead>
+						<th colspan="2"><input type='text' placeholder="Write Task" id="new_task" /></th>
+					</thead>
+					<tbody id="task_list">
+
+					</tbody>
+				</table>
+			</div>
+			
+			
+		</div>
+		<!-- end of container fluid -->
+		
+		<script src="tmpl.js"></script>
 		<script src="demo.js"></script>
+		
+		<script type="text/html"  id="task_tmpl">
+			<tr data-id="<%=objectId%>">
+				<td> <a class="btn danger remove">Remove </a> </td>
+				<td class="body"> <%=body%> </td>
+			</tr>
+		</script>
+		
 	</body>
 </html>
