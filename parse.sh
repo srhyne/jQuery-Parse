@@ -2,6 +2,7 @@
 
 # Run this to get your base64 encoded Basic Auth header. 
 # Get your credentials at https://www.parse.com/apps/{your app}
+# NEW! You don't need to use Basic auth now! Parse.com now supports CORS...https://parse.com/docs/rest
 
 export APPLICATION_ID=""
 export MASTER_KEY=""

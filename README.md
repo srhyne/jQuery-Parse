@@ -5,13 +5,21 @@ It's a super light-weight AJAX wrapper for Parse.com's wonderful database servic
 # Why did you build it? 
 
 I wanted a stupid-easy data store that I could use strictly from the client. No server needed! 
-One can simply write a thick front end application or app prototype and serve it from the file protocol
-or through a Chrome extension.
+Write a thick front end application or app prototype. 
+
+# New!
+
+__Serve your app from http, cross domain calls FTW!__
+Parse launched support for __cross-origin__ resource sharing using CORS.
+This means you no longer have to generate a base64 encoded Basic Auth key using the provided parse.sh
+You can now just pass your application id and rest key right to `$.parse.init` and 
+
+	$.parse.init({
+		app_id : undefined, // <-- enter your Application Id here 
+		rest_key : undefined // <--enter your REST API Key here	
+	});
 
 # Prototyping love. 
-
-Of course having your Parse.com authentication key sitting in your JS code is sort of a no-no. 
-However, for writing applications where you are focusing your effort first on the front end this is a great tool.
 
 * No Schema! Just fire a $.parse.post & forget it. If the collection hasn't been created already it will be 
 instantiated. 
@@ -21,4 +29,3 @@ instantiated.
 # More to come....
 
 * Backbone / Spine sync extension
-* Working on one for MongoHQ

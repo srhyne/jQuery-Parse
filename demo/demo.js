@@ -6,9 +6,8 @@
 	
 	
 	$.parse.init({
-		//Enter a base64 Basic Auth string here.. 
-		// (Easiest way to get this is by running parse.sh and grabbing the auth output)
-		auth : undefined // <--- your basic auth key goes here!
+		app_id : undefined, // <-- enter your Application Id here 
+		rest_key : undefined // <--enter your REST API Key here	
 	});
 
 	function init(){

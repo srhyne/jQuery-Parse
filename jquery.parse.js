@@ -18,11 +18,14 @@
 	function _creds(){
 		var error;
 		
-		if(_opts.auth){
+		if(_opts.app_id && _opts.rest_key){
 			return true;
 		}
 		
-		error = "Missing auth key. You should pass your basic Auth key to $."+ns+".init";
+		error = "Missing app_id, or rest_key authentication parameters.\n"+
+				"Pass these credentials to $."+ns+".init\n"+
+				"app_id = Application Id\n"+
+				"rest_key = REST API Key";
 		alert(error);
 		$.error(error);
 		
@@ -52,14 +55,10 @@
 			type : method,  
 			
 			//Credentials 
-			// -Note last I checked Stripe doesn't recognize Basic Auth sent through the URL scheme
-			username : _opts.app_id, 
-			password : _opts.master_key, 
-			
-			//Have to manually set a basic auth header. See above. 
-			//Use Parse.sh result to C&P your basic auth and pass in $.parse.init
+			//NEW! Parse.com now supports CORS...https://parse.com/docs/rest
 			headers : {
-				Authorization: "Basic " + _opts.auth
+				"X-Parse-Application-Id" : _opts.app_id, 
+				"X-Parse-REST-API-Key" : _opts.rest_key
 			}, 
 			error : _error	
 		};
