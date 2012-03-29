@@ -78,7 +78,7 @@
             //if there is a where object it needs to be stringified first.
             //no need to encodeURIComponent on data.where as $.ajax does that natively
             if (data.where && typeof data.where === 'object') {
-                data.where = JSON.stringify(data.where)
+                data.where = JSON.stringify(data.where);
             }
         }
         //otherwise stringify all data.
@@ -103,7 +103,7 @@
         $.extend(_opts, typeof customOpts === 'object' ? customOpts: {},
         true);
         return $[ns];
-    }
+    };
 
 
     /*
@@ -115,8 +115,7 @@
     });
 
   */
-    $.each(['GET', 'POST', 'PUT', 'DELETE'],
-    function(i, action) {
+    $.each(['GET', 'POST', 'PUT', 'DELETE'], function(i, action) {
         var m = action.toLowerCase();
 
         methods[m] = function() {
@@ -153,25 +152,22 @@
         //@param Function optional callback
         //@return $[ns] aka $.parse
         login: function(username, password, cb) {
-            return this.get('login', {
-                username: username,
-                password: password
-            },
-            cb);
+            return this.get('login', { username: username, password: password }, cb);
         },
 
         //@param String email address of user
         //@param Function optional callback
         //@return $[ns] aka $.parse
         requestPasswordReset: function(email, cb) {
-            return this.post('requestPasswordReset', {
-                email: email
-            },
-            cb);
+            return this.post('requestPasswordReset', { email: email }, cb);
         }
-
+        
     });
+    
+    
 
+    
+   
     //attach methods to jQuery object using ns var aka 'parse'	
     $[ns] = methods;
 

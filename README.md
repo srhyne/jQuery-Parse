@@ -42,7 +42,7 @@ You can now just pass your application id and rest key right to `$.parse.init`.
   		rest_key : "ubpbA8Q1gplTRybw6pTkDAoZsT8KZTI9cy2tKJ82" // <--enter your REST API Key here	
   	});
   	
-### parse#get
+### parse#get(String class, [Object params])
   
     $.parse.get("tasks");
   
