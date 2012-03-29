@@ -120,11 +120,7 @@
         var m = action.toLowerCase();
 
         methods[m] = function() {
-            var args,
-            uri,
-            data,
-            cb,
-            req;
+            var args, uri, data, cb, req;
 
             args = arguments;
             uri = args[0];
