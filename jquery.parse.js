@@ -1,6 +1,6 @@
 (function($){
 	
-	var ns, _opts, methods;
+	var ns, _opts, methods, uriRgx;
 	
 	//Plugin namespace you can change this if you want.. 
 	//i.e, ns = "db" = $.db.get/post/put/delete
@@ -8,12 +8,14 @@
 	
 	//default opts
 	_opts = {
-		base : "https://api.parse.com/1/classes/", 
-		auth : false
+		base : "https://api.parse.com/1/"
 	};
 	
 	//public methods
 	methods = {};
+	
+	//uriRgx
+	uriRgx = /(users|login|files|push|requestPasswordReset)/;
 	
 	function _creds(){
 		var error;
@@ -38,20 +40,21 @@
 	
 	//TODO JSON.stringify dependency?
 	function _http(method, uri, data){
-		var req, _data;
+		var req;
 		
 		if(!_creds()){
 			return false;
 		}
+		
 		
 		req = {
 			//data
 			contentType : "application/json", 
 			processData : false, 
 			dataType : 'json', 
-			
+      
 			//action
-			url : _opts.base + uri,
+			url : _opts.base + (uriRgx.test(uri) ? uri : "classes/" + uri),
 			type : method,  
 			
 			//Credentials 
@@ -60,13 +63,32 @@
 				"X-Parse-Application-Id" : _opts.app_id, 
 				"X-Parse-REST-API-Key" : _opts.rest_key
 			}, 
-			error : _error	
+			error : _error
 		};
 		
-		//handle data.
-		data = typeof data === 'object' ? JSON.stringify(data) : false;
-		data = method === 'GET' && data ? "where=" + encodeURIComponent(data) : data;
+		
+		//if no data passed just return ajax
+		if(typeof data !== 'object'){
+		  return $.ajax(req);
+		}
+		
+    //if get request process data as application/x-www-form-urlencoded
+		if(method === 'GET'){
+      req.processData = true;
+      //if there is a where object it needs to be stringified first. 
+      //no need to encodeURIComponent on data.where as $.ajax does that natively
+      if(data.where && typeof data.where === 'object'){
+        data.where = JSON.stringify(data.where)
+      }
+		}	
+		//otherwise stringify all data.
+		else{
+      data = JSON.stringify(data);
+		}
+		
+		//set request data
 		req.data = data;
+		
 		return $.ajax(req);
 	}
 	
@@ -77,12 +99,22 @@
 	}
 	//exports
 		
+		
 	methods.init = function(customOpts){
 		$.extend(_opts, typeof customOpts === 'object' ? customOpts : {}, true);
 		return $[ns];
 	}
 	
-
+  
+  /*
+    Creates $.parse.get/post/put/delete methods 
+    Examples....
+    
+    $.parse.post('tasks',{ body : "Build all the things!" },function(json){
+      console.log(json);
+    });
+    
+  */  
 	$.each(['GET', 'POST', 'PUT', 'DELETE'],function(i, action){
 		var m = action.toLowerCase();
 		
@@ -105,7 +137,34 @@
 		
 	});
 	
+  //alias methods
+	$.extend(methods,{
+	  
+	  //@param Object data  eg.. '{"username": "cooldude6", "password": "p_n7!-e8", "phone": "415-392-0202"}'
+	  //@param Function optional callback
+	  //@return $[ns] aka $.parse
+    signup : function(data, cb){
+      return this.post('users', data, cb);
+    }, 
+    
+    //@param String username 
+    //@param String password
+    //@param Function optional callback
+	  //@return $[ns] aka $.parse
+    login : function(username, password, cb){
+      return this.get('login', {username : username, password : password }, cb);
+    },
+    
+    //@param String email address of user
+    //@param Function optional callback
+	  //@return $[ns] aka $.parse
+    requestPasswordReset : function(email, cb){
+      return this.post('requestPasswordReset', { email : email }, cb);
+    }
+    
+	});
 	
+	//attach methods to jQuery object using ns var aka 'parse'	
 	$[ns] = methods;
-	
+  
 })(jQuery);

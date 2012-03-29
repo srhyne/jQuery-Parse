@@ -1,5 +1,3 @@
-
-
 (function(GLOBAL, $, tmpl){
 	
 	var task_list, new_task;
@@ -118,11 +116,6 @@
 	}
 	
 	
-	
-	
-	
-	
-	
 	function get(){
 		$.parse.get("tasks", function(json){
 			var results, html;
@@ -143,9 +136,6 @@
 			
 		});
 	}
-	
-	
-	
 	
 	
 	GLOBAL.tasks = {
