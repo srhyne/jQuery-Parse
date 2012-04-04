@@ -1,2 +1,4 @@
 .DS_Store
 *.tmproj
+# using file for reference locally
+backbone.js

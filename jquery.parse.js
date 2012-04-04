@@ -75,6 +75,9 @@
             return $.ajax(req);
         }
 
+        //makes for easier reuse of query objects passed in as reference
+        data = $.extend({}, data);
+        
         //if get request process data as application/x-www-form-urlencoded
         if (method === 'GET') {
             req.processData = true;
@@ -86,7 +89,7 @@
         }
         //otherwise stringify all data.
         else {
-            data = JSON.stringify(data);
+          data = JSON.stringify(data);
         }
 
         //set request data
