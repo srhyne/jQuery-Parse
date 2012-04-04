@@ -30,19 +30,16 @@ This means you no longer have to generate a base64 encoded Basic Auth key using 
 You can now just pass your application id and rest key right to `$.parse.init`.
 
 
-
-
-
 # Examples.. 
 
-### parse#init(Object options)
+### parse#init( Object options )
     
     $.parse.init({
   		app_id : "mJDSHSMJbdXm1GtLsTsGhXDvqn63RER6HL23JXTCG", // <-- enter your Application Id here 
   		rest_key : "ubpbA8Q1gplTRybw6pTkDAoZsT8KZTI9cy2tKJ82" // <--enter your REST API Key here	
   	});
   	
-### parse#get(String class, [Object params])
+### parse#get( String class, [Object params], [Function callback], [Function error-callback] )
   
     $.parse.get("tasks");
   
@@ -61,23 +58,23 @@ You can now just pass your application id and rest key right to `$.parse.init`.
      order : "-createdAt"
     });
     	
-### parse#post(String class, Object new_record, [Function callback])
+### parse#post( String class, Object new-record, [Function callback], [Function error-callback] )
 
     $.parse.post('tasks',{ body : 'my message body' }, function(json){
       console.log(json);
     });
 
-### parse#put(String class/id, Object updated_record, [Function callback])
+### parse#put( String class/id, Object updated_record, [Function callback], [Function error-callback] )
 
     $.parse.put('tasks/od9867Vwd4',{ body : 'my updated text' }, function(json){
       console.log(json);
-    });
+    }, optionalErrorCallback);
   
-### parse#delete(String class/id, [Function callback])
+### parse#delete(String class/id, [Function callback], [Function error-callback])
   
-    $.parse.delete('tasks/od9867Vwd4');
+    $.parse.delete('tasks/od9867Vwd4', optionalCallback, optionalErrorCallback);
     
-### parse#signup(String class, Object user_record, [Function callback])
+### parse#signup(String class, Object user_record, [Function callback], [Function error-callback])
   
     //Same as $.parse.post('users',{...});
   
@@ -85,15 +82,15 @@ You can now just pass your application id and rest key right to `$.parse.init`.
       username : 'srhyne', 
       password : 'password', 
       email : 'testy@test.com' 
-    },optionalCallback);
+    },optionalCallback, optionalErrorCallback);
 
-### parse#login(String username, String password, [Function callback])
+### parse#login(String username, String password, [Function callback], [Function error-callback])
   
-    $.parse.login('srhyne', 'password', optionalCallback)
+    $.parse.login('srhyne', 'password', optionalCallback, optionalErrorCallback)
   
-### parse#requestPasswordReset(String email, [Function callback]);
+### parse#requestPasswordReset(String email, [Function callback], [Function error-callback]);
   
-    $.parse.requstPasswordReset('testy@test.com', optionalCallback);
+    $.parse.requstPasswordReset('testy@test.com', optionalCallback, optionalErrorCallback);
 
 # TODO 
 

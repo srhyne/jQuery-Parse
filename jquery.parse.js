@@ -37,7 +37,7 @@
     function _error(jqXHR, textStatus, errorThrown) {
         $.error("$." + ns + " :" + textStatus + " " + errorThrown);
     }
-
+    
     //TODO JSON.stringify dependency?
     function _http(method, uri, data) {
         var req;
@@ -62,8 +62,7 @@
             headers: {
                 "X-Parse-Application-Id": _opts.app_id,
                 "X-Parse-REST-API-Key": _opts.rest_key
-            },
-            error: _error
+            }
         };
 
 
@@ -93,8 +92,10 @@
     }
 
 
-    function _done(req, cb) {
+    function _response(req, cb, error) {
         typeof cb === "function" && req.done(cb);
+        error = typeof error === 'function' ? error : _error;
+        req.fail(error); 
         return $[ns];
     }
     //exports
@@ -122,17 +123,21 @@
             var args, uri, data, cb, req;
 
             args = arguments;
+            
             uri = args[0];
             data = args[1];
             cb = args[2];
-
+            error = args[3]
+            
             if (typeof args[1] === 'function') {
                 data = false;
                 cb = args[1];
+                error = args[2];
             }
 
             req = _http(action, uri, data);
-            return _done(req, cb);
+            
+            return _response(req, cb, error);
         };
 
     });
@@ -142,24 +147,27 @@
 
         //@param Object data  eg.. '{"username": "cooldude6", "password": "p_n7!-e8", "phone": "415-392-0202"}'
         //@param Function optional callback
+        //@param Function optional error callback
         //@return $[ns] aka $.parse
-        signup: function(data, cb) {
-            return this.post('users', data, cb);
+        signup: function(data, cb, error) {
+            return this.post('users', data, cb, error);
         },
 
         //@param String username
         //@param String password
         //@param Function optional callback
+        //@param Function optional error callback
         //@return $[ns] aka $.parse
-        login: function(username, password, cb) {
-            return this.get('login', { username: username, password: password }, cb);
+        login: function(username, password, cb, error) {
+            return this.get('login', { username: username, password: password }, cb, error);
         },
 
         //@param String email address of user
         //@param Function optional callback
+        //@param Function optional error callback
         //@return $[ns] aka $.parse
-        requestPasswordReset: function(email, cb) {
-            return this.post('requestPasswordReset', { email: email }, cb);
+        requestPasswordReset: function(email, cb, error) {
+            return this.post('requestPasswordReset', { email: email }, cb, error);
         }
         
     });
