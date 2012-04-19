@@ -14,6 +14,11 @@ instantiated.
 
 # New!
 
+### [4-19-12 Live Demo Added >>](http://srhyne.github.com/jQuery-Parse/) 
+
+  * No code editing needed to try out the demo. 
+  * Logger (far right) shows you what $.parse methods are being executed and how. 
+  
 ### 3-28-12
 
   * WARNING! Big change made to $.parse.get regarding queries. (See parse#get).
