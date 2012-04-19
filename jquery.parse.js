@@ -98,11 +98,17 @@
         req.fail(error); 
         return $[ns];
     }
+    
+    function _logger(method, uri, data){
+      var str = [ "$.", ns, ".", method, "(", "\"",uri,"\""];
+      data && str.push(", " + (JSON ? JSON.stringify(data) : "data") ); 
+      str = str.join('')+");";
+      $.publish && $.publish("parse.log", [str]);
+      return str;
+    }
     //exports
-
     methods.init = function(customOpts) {
-        $.extend(_opts, typeof customOpts === 'object' ? customOpts: {},
-        true);
+        $.extend(_opts, typeof customOpts === 'object' ? customOpts: {}, true);
         return $[ns];
     };
 
@@ -134,7 +140,9 @@
                 cb = args[1];
                 error = args[2];
             }
-
+            
+            _logger(m, uri, data);
+            
             req = _http(action, uri, data);
             
             return _response(req, cb, error);

@@ -1,22 +1,14 @@
 (function(GLOBAL, $, tmpl) {
   
-  var task_list, new_task;
+  //dom cache
+  var task_list, new_task, parse_log;
 
 
-  $.parse.init({
-      app_id: undefined, // <-- enter your Application Id here
-      rest_key: undefined // <--enter your REST API Key here	
-  });
-
-  function init() {
-    task_list = $("#task_list");
-    new_task = $("#new_task");
-    task_table = $("#task_table");
-    _addEvents();
-    return GLOBAL.tasks;
+  function _initParse(creds){
+    $.parse.init(creds);
+    _credentials(creds);
+    return true;
   }
-
-
 
   function _removeTask() {
     var tr, id;
@@ -113,11 +105,57 @@
     })
 
     new_task.bind("keydown", _newNote);
-
+    $("#add-credentials").on('click', _startDemo);
+    $.subscribe && $.subscribe('parse.log', _updateParseLog );
+    
   }
 
+  function _updateParseLog(e, str){
+    $("<li/>",{ text : str }).appendTo(parse_log);
+  }
+  
+  function _startDemo(e){
+    var creds = {};
+    
+    e.preventDefault();
+    $("#credentials").children('input').each(function(){
+      creds[this.name] = this.value;
+    });
+    
+    _initParse(creds) && get();
+  }
+  
+  function _credentials(creds){
+    var key = "parse.creds";
+    if(!window.localStorage || !window.JSON){
+      return false;
+    }
+    
+    if(!creds){
+      return JSON.parse(localStorage[key] || "{}");
+    }
+    
+    localStorage[key] = JSON.stringify(creds);
+    return creds;
+  }
 
-  function get() {
+  function _checkForCredentials(){
+    var creds;
+    
+    creds = _credentials();
+    if(!creds.app_id || !creds.rest_key){
+      return false;
+    }
+    
+    $("#credentials").children('input').each(function(){
+      this.value = creds[this.name];
+    });
+    
+    _initParse(creds) && get();
+    
+  }
+  
+  function get(){
     
     $.parse.get("tasks", function(json) {
         var results,
@@ -126,30 +164,51 @@
         results = json.results;
         html = "";
 
+        
+        //update demo status label
+        $("#demo-status")
+          .removeClass('label-important')
+          .addClass('label-success')
+          .text('Demo Ready!');
+          
         if (results.length === 0) {
             return false;
         }
-
+        
         results.forEach(function(task) {
             html += tmpl("task_tmpl", task);
         });
         task_list.html(html);
+        
     });
     
     
   }
-
-
+  
+  function init(){
+     //cache vars in module
+     task_list = $("#task_list");
+     new_task = $("#new_task");
+     task_table = $("#task_table");
+     parse_log = $("#parse_log");
+     //add events
+     _addEvents();
+     _checkForCredentials();
+     return GLOBAL.tasks;
+   }
+  
+  
   GLOBAL.tasks = {
       init: init,
       get: get
   };
 
+  //doc ready init
+  $(init);
+  
 })(window, jQuery, tmpl);
 
-$(function() {
-    tasks.init().get();
-});
+
 
 
 

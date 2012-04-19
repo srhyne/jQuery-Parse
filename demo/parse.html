@@ -3,61 +3,107 @@
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>jQuery.parse AJAX Wrapper for parse.com </title>
-		<link rel="stylesheet" href="bootstrap.min.css">
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script src = "../jquery.parse.js"></script>
 		<style>
 		  body{
 		    padding-top:20px;
 		  }
+		  
+		  li + li{
+				padding-top : 10px;
+			}
+			
+      .sidebar input{
+        margin-top:10px;
+        display:block;
+        width:180px;
+      }
+
+      .content table{
+        width:100%;
+      }
+      
+			tr{
+			  height:40px;
+			}
+			
+			th{
+			  text-align:left;
+			}
+			
 			td.body{
 				cursor : pointer;
 			}
+			
+			td.body input{
+			  margin-bottom:0px;
+			  width:90%;
+			}
+			
 			tr td:first-child{
 				width : 30px;
+				padding:5px;
 			}
-			li + li{
-				padding-top : 10px;
-			}
+
+	
 		</style>
 	</head>
 	<body>
 		<div class="container-fluid">
-			
-			<div class="sidebar span6 ">
-				<h1> $.parse </h1>
-				<p>A super light-weight AJAX wrapper for Parse.com's wonderful database service.</p>
-        <h3>Try out this demo</h3>
-        <ol>
-          <li>
-            <a href="https://github.com/srhyne/jQuery-Parse/blob/master/README.md" target="_blank">
-              Check out the docs..
-            </a>
-          </li>
-          <li>
-            In your Parse.com account, create a app named "demo"
-          </li>
-          <li>
-            Pass your "demo" application key &amp; rest key to $.parse.init in 
-            <a href="demo.js">demo.js</a> (line 7-8)
-          </li>
-          <li>
-            Try out this task list app by creating, deleting &amp; editing tasks. 
-          </li>
-        </ol>
-			</div>
-			<div class="content span10">
-				<table class="zebra-striped" id="task_table">
-					<thead>
-						<th colspan="2"><input type='text' placeholder="Write Task" id="new_task" /></th>
-					</thead>
-					<tbody id="task_list">
-
-					</tbody>
-				</table>
-			</div>
-			
-			
+		  
+		  <div class='row-fluid'>
+		    
+  			<div class="sidebar span3">
+  				<h1> $.parse </h1>
+  				<p>A super light-weight AJAX wrapper for Parse.com's wonderful database service.</p>
+          <h3>Try out this demo</h3>
+          <ol>
+            <li>
+              <a href="https://github.com/srhyne/jQuery-Parse/blob/master/README.md" target="_blank">
+                Check out the docs..
+              </a>
+            </li>
+            <li>
+              In your Parse.com account, create an app named "demo"
+            </li>
+            <li>
+              <p>Enter your "demo" application key &amp; rest key below</p>
+              <form id="credentials">
+                <input placeholder="Application Key" type="text" name='app_id'/>
+                <input placeholder="Rest Key" type="text" name='rest_key'/>
+                <a class="btn btn-primary" href="#" id="add-credentials">Start Demo</a>
+              </form>
+            </li>
+            <li>
+              Try out this task list app by creating, deleting &amp; editing tasks. 
+            </li>
+          </ol>
+  			</div>
+  			<div class="content span6">
+          <h3>TODO Demo</h3>
+          <p><span class="label label-important" id="demo-status">Complete Step 3 First</span></p>
+  				<table class="table-striped" id="task_table">
+  					<thead>
+  						<th colspan="2">
+  						  <input type='text' placeholder="Create Task" id="new_task" />
+  						</th>
+  					</thead>
+  					<tbody id="task_list"></tbody>
+  				</table>
+  			</div>
+  			<div class="righbar span3">
+          <h3>Log</h3>
+  			 <ul id="parse_log" style='margin-top:20px'>
+  			   
+  			 </ul>
+  			</div>		    
+  					    
+		  </div>
+      <!-- end of row fluid -->
+      
+      
 		</div>
 		<!-- end of container fluid -->
 		
@@ -66,12 +112,15 @@
 		
 		<script type="text/html"  id="task_tmpl">
 			<tr data-id="<%=objectId%>">
-				<td> <a class="btn danger remove">Remove </a> </td>
+				<td> 
+				  <a class="icon-trash remove" href="#"></a> 
+				</td>
 				<td class="body"> <%=body%> </td>
 			</tr>
 		</script>
 		
 		<a href="https://github.com/srhyne/jQuery-Parse"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
 		
+		<script src="tiny_pubsub.js"></script>
 	</body>
 </html>
