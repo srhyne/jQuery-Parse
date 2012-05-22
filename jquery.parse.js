@@ -65,6 +65,10 @@
             }
         };
 
+        //If a session token is present in $.parse.init, adds it to the header
+        if( _opts.session_token ) {
+            req.headers["X-Parse-Session-Token"] = _opts.session_token;
+        }
 
         //if no data passed just return ajax
         if (typeof data !== 'object') {
