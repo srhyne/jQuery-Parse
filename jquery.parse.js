@@ -15,7 +15,7 @@
     methods = {};
 
     //uriRgx
-    uriRgx = /(users|login|files|push|requestPasswordReset)/;
+    uriRgx = /(files|installations|login|push|roles|requestPasswordReset|users)/;
 
     function _creds() {
         var error;
