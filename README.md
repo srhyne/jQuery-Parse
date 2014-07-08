@@ -95,7 +95,7 @@ You can now just pass your application id and rest key right to `$.parse.init`.
   
 ### parse#requestPasswordReset(String email, [Function callback], [Function error-callback]);
   
-    $.parse.requstPasswordReset('testy@test.com', optionalCallback, optionalErrorCallback);
+    $.parse.requestPasswordReset('testy@test.com', optionalCallback, optionalErrorCallback);
 
 # TODO 
 
